@@ -1,0 +1,2 @@
+worker: node botcol.js
+
