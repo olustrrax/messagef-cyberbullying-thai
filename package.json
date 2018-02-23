@@ -13,14 +13,23 @@
   "author": "Dusadee Srijulpo",
   "license": "ISC",
   "dependencies": {
+    "arff-utils": "0.0.5",
+    "bcrypt": "^1.0.3",
+    "child_process": "^1.0.2",
     "csv-parse": "^2.0.2",
     "fs": "^0.0.1-security",
     "json2csv": "^3.11.5",
+    "limdu": "^0.9.4",
     "lodash": "^4.17.5",
     "node-arff": "^1.1.0",
+    "node-gyp": "^3.6.2",
+    "node-java": "^1.0.1",
+    "node-jvm": "^0.2.3",
     "node-weka": "0.0.8",
     "pg": "7.4.0",
+    "rebuild": "^0.1.2",
     "twit": "^2.2.9",
+    "windows-build-tools": "^2.2.1",
     "wordcut": "^0.8.1"
   }
 }
