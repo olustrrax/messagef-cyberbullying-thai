@@ -1,14 +1,13 @@
 var twit = require('twit');
 var fs = require('fs');
-var config = require('./config.js');
-var wordseg = require('./wsegmentation.js');
+var config = require('./config/config.js');
+var textN = require('./text_normalization.js');
 var connect = require('./connectdb.js');
 var Twitter = new twit(config);
 var comparefeature = require('./comparefeature.js');
-var fakeFeature = comparefeature.feature_fakereal();
-//แล้วค่อยเอา fakeFeature ไปใช้เทียบ feature ตอนที่ message เข้ามาเพื่อทำนาย
-
-
+var feature_train = comparefeature.pair_feature();
+var callweka = require('./callweka.js');
+var number = fs.readFileSync('./testData/last_message_id.txt', 'utf8').split('\n');
 var tweet = function() {
   var params = {
     q: randomTrack(),
@@ -28,11 +27,21 @@ var tweet = function() {
         var time = tweet.created_at;
         var id_str = tweet.id_str;
         var text = tweet.text;
-        console.log('Name: '+name+'\n'+'Text: '+text);
-        var inserts = {screen_name:name,id:id_str,text:text,time_tweet:time};
-        wordseg.segmentation(text);
-        // connect.insertMessage(inserts);
-       
+        var fileArff = textN.normalization(text,feature_train);
+        // console.log(fileArff);
+        callweka.classification(fileArff, function(predict){
+          predict = predict.replace('\r\n','')
+          var inserts = {screen_name:name,id:id_str,text:text,time_tweet:time,prediction:predict};
+          // console.log(inserts)
+          connect.insertMessage(inserts);
+        })
+        
+        number = parseInt(number) + 1;
+        fs.writeFile("./testData/last_message_id.txt", number, function(err) {
+          if(err) {
+              return console.log(err);
+          }
+        });
       }
       else{
         console.log('TWEET ERROR');
@@ -52,7 +61,7 @@ function ranDom (arr) {
 };
 
 function randomTrack (data){
-  var list = fs.readFileSync('tracklists.txt', 'utf8').split('\n');
+  var list = fs.readFileSync('./features/tracklists.txt', 'utf8').split('\n');
   var key = ranDom(list);
   console.log('---------');
   console.log('keyword: '+key);

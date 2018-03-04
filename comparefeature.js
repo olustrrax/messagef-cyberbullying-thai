@@ -1,7 +1,7 @@
 var fs = require('fs');
 var _ = require('lodash');
-var colnames = fs.readFileSync('./col90cor.txt', 'utf8').split('\r\n');
-var colnames_fake = fs.readFileSync('./col90cor_fake.txt', 'utf8').split('\r\n');
+var colnames = fs.readFileSync('./features/col90cor.txt', 'utf8').split('\r\n');
+var colnames_fake = fs.readFileSync('./features/col90cor_fake.txt', 'utf8').split('\r\n');
 var feature = new Object
 
 

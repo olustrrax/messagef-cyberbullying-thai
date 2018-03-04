@@ -21,6 +21,7 @@
     "json2csv": "^3.11.5",
     "limdu": "^0.9.4",
     "lodash": "^4.17.5",
+    "mysql": "^2.15.0",
     "node-arff": "^1.1.0",
     "node-gyp": "^3.6.2",
     "node-java": "^1.0.1",
